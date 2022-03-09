@@ -223,8 +223,8 @@ def startup_master_alert(CP: car.CarParams, sm: messaging.SubMaster, metric: boo
   #TODO: Add proper event for VOACC / pedal
   #TODO: Add proper event for Pedal braking warnings on non EVs
   if CP.enableGasInterceptor:
-    branch = "PDL USE L-MODE, CC MAIN REVERSED"
-  return StartupAlert("WARNING: This branch is not tested", branch, alert_status=AlertStatus.userPrompt)
+    branch = "BRANCH IS _NOT_ SAFE"
+  return StartupAlert("DO NOT USE THIS BRANCH!", branch, alert_status=AlertStatus.userPrompt)
 
 def below_engage_speed_alert(CP: car.CarParams, sm: messaging.SubMaster, metric: bool, soft_disable_time: int) -> Alert:
   return NoEntryAlert(f"Speed Below {get_display_speed(CP.minEnableSpeed, metric)}")
