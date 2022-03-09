@@ -106,7 +106,6 @@ class CarInterface(CarInterfaceBase):
       ret.wheelbase = 2.69
       ret.steerRatio = 17.7  # Stock 15.7, LiveParameters
       tire_stiffness_factor = 0.469 # Stock Michelin Energy Saver A/S, LiveParameters
-      ret.steerRatioRear = 0.
       ret.centerToFront = ret.wheelbase * 0.45 # Volt Gen 1, TODO corner weigh
 
       ret.lateralTuning.pid.kpBP = [0., 40.]
@@ -122,7 +121,6 @@ class CarInterface(CarInterfaceBase):
       ret.mass = 1496. + STD_CARGO_KG
       ret.wheelbase = 2.83
       ret.steerRatio = 15.8
-      ret.steerRatioRear = 0.
       ret.centerToFront = ret.wheelbase * 0.4  # wild guess
 
     elif candidate == CAR.HOLDEN_ASTRA:
@@ -132,14 +130,12 @@ class CarInterface(CarInterfaceBase):
       ret.centerToFront = ret.wheelbase * 0.4
       ret.minEnableSpeed = 18 * CV.MPH_TO_MS
       ret.steerRatio = 15.7
-      ret.steerRatioRear = 0.
 
     elif candidate == CAR.ACADIA or candidate == CAR.ACADIA_NR:
       ret.minEnableSpeed = -1.  # engage speed is decided by pcm
       ret.mass = 4353. * CV.LB_TO_KG + STD_CARGO_KG
       ret.wheelbase = 2.86
       ret.steerRatio = 14.4  # end to end is 13.46
-      ret.steerRatioRear = 0.
       ret.centerToFront = ret.wheelbase * 0.4
       ret.lateralTuning.pid.kf = 1. # get_steer_feedforward_acadia()
       ret.steerMaxBP = [10., 25.]
@@ -150,7 +146,6 @@ class CarInterface(CarInterfaceBase):
       ret.mass = 3779. * CV.LB_TO_KG + STD_CARGO_KG  # (3849+3708)/2
       ret.wheelbase = 2.83  # 111.4 inches in meters
       ret.steerRatio = 14.4  # guess for tourx
-      ret.steerRatioRear = 0.
       ret.centerToFront = ret.wheelbase * 0.4  # guess for tourx
 
     elif candidate == CAR.CADILLAC_ATS:
@@ -158,7 +153,6 @@ class CarInterface(CarInterfaceBase):
       ret.mass = 1601. + STD_CARGO_KG
       ret.wheelbase = 2.78
       ret.steerRatio = 15.3
-      ret.steerRatioRear = 0.
       ret.centerToFront = ret.wheelbase * 0.49
 
     elif candidate == CAR.ESCALADE_ESV:
@@ -178,7 +172,6 @@ class CarInterface(CarInterfaceBase):
       ret.mass = 1616. + STD_CARGO_KG
       ret.wheelbase = 2.60096
       ret.steerRatio = 16.8
-      ret.steerRatioRear = 0.
       ret.centerToFront = 2.0828 #ret.wheelbase * 0.4 # wild guess
       tire_stiffness_factor = 1.0
       # TODO: Improve stability in turns 
@@ -241,14 +234,25 @@ class CarInterface(CarInterfaceBase):
     elif candidate == CAR.SUBURBAN:
       ret.minEnableSpeed = -1. # engage speed is decided by pcmFalse
       ret.minSteerSpeed = -1 * CV.MPH_TO_MS
-      ret.mass = 1278. + STD_CARGO_KG
-      ret.wheelbase = 3.302
-      ret.steerRatio = 16.3 # COPIED FROM SILVERADO
+      ret.mass = 2731. + STD_CARGO_KG # From spec
+      ret.wheelbase = 3.302 # From spec
+      ret.steerRatio = 17.3 # From 2016 spec (unlisted for newer models) TODO: Use LiveParameters to find calculated
       ret.centerToFront = ret.wheelbase * 0.49
-      ret.steerActuatorDelay = 0.075
+      ret.steerActuatorDelay = 0.075 # TODO: review eisting route
       ret.pcmCruise = True # TODO: see if this resolves cruiseMismatch
       ret.openpilotLongitudinalControl = False # ASCM vehicles use OP for long
       ret.radarOffCan = True # ASCM vehicles (typically) have radar
+      
+      ret.lateralTuning.pid.kpBP, ret.lateralTuning.pid.kiBP = [[10., 41.0], [10., 41.0]]
+      ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.13, 0.24], [0.01, 0.02]]
+      ret.lateralTuning.pid.kf = 0.000045
+      tire_stiffness_factor = 1.0
+      
+      # Example PID tune from a Kia
+      # ret.lateralTuning.pid.kf = 0.00005
+      # ret.lateralTuning.pid.kiBP, ret.lateralTuning.pid.kpBP = [[0.], [0.]]
+      # ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.25], [0.05]]
+      
     
     if candidate in HIGH_TORQUE:
       ret.safetyConfigs[0].safetyParam = 1 # set appropriate safety param for increased torque limits to match values.py
