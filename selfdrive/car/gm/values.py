@@ -33,11 +33,7 @@ class CarControllerParams():
     self.ACCEL_MAX = 4. # m/s^2
     self.ACCEL_MIN = -4. # m/s^2
     
-    if CP.carFingerprint in NO_ASCM:
-      pass
-      #self.STEER_DELTA_UP = 3          # ~0.75s time to peak torque (255/50hz/0.75s)
-      #self.STEER_DELTA_DOWN = 7       # ~0.3s from peak torque to zero
-    elif CP.carFingerprint in HIGH_TORQUE:
+    if CP.carFingerprint in HIGH_TORQUE:
       self.STEER_MAX = 600  # Safety limit, not LKA max. Trucks use 600.
       self.STEER_DELTA_UP = 14
       self.STEER_DELTA_DOWN = 34
