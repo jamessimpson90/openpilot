@@ -54,6 +54,10 @@ class LongControl():
     self.pid.reset()
     self.v_pid = v_pid
 
+  # Update the active PI parameters
+  def liveUpdateParams(self, k_p=None, k_i=None, k_f=None, pos_limit=None, neg_limit=None, rate=None):
+    self.pid.liveUpdateParams(k_p, k_i, k_f, pos_limit, neg_limit, rate)
+
   def update(self, active, CS, CP, long_plan, accel_limits, t_since_plan):
     """Update longitudinal control. This updates the state machine and runs a PID loop"""
     # Interp control trajectory

@@ -18,6 +18,10 @@ class LatControlPID(LatControl):
     super().reset()
     self.pid.reset()
 
+  # Update the active PI parameters
+  def liveUpdateParams(self, k_p=None, k_i=None, k_f=None, pos_limit=None, neg_limit=None, rate=None):
+    self.pid.liveUpdateParams(k_p, k_i, k_f, pos_limit, neg_limit, rate)
+
   def update(self, active, CS, CP, VM, params, last_actuators, desired_curvature, desired_curvature_rate):
     pid_log = log.ControlsState.LateralPIDState.new_message()
     pid_log.steeringAngleDeg = float(CS.steeringAngleDeg)
