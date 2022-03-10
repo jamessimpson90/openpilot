@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 from cereal import car
 from math import fabs
-from selfdrive.car.gm.livetune_server import launch_listener_async
 from selfdrive.config import Conversions as CV
 from selfdrive.car.gm.values import CAR, HIGH_TORQUE, CruiseButtons, \
                                     AccState, CarControllerParams, NO_ASCM
@@ -53,8 +52,6 @@ class CarInterface(CarInterfaceBase):
     # These cars likely still work fine. Once a user confirms each car works and a test route is
     # added to selfdrive/test/test_routes, we can remove it from this list.
     ret.dashcamOnly = candidate in {CAR.CADILLAC_ATS, CAR.HOLDEN_ASTRA, CAR.MALIBU, CAR.BUICK_REGAL}
-
-    launch_listener_async()
 
     # TODO: safety param should be a bitmask so we can pass info about ACC type?
     
