@@ -33,6 +33,12 @@ class LateralPlanner:
     self.x0 = x0
     self.lat_mpc.reset(x0=self.x0)
 
+  def liveUpdateParams(self, steerRateCost=None, use_lanelines=None):
+    if steerRateCost is not None:
+      self.steer_rate_cost = steerRateCost
+    if use_lanelines is not None:
+      self.use_lanelines = use_lanelines
+
   def update(self, sm):
     v_ego = sm['carState'].vEgo
     measured_curvature = sm['controlsState'].curvature

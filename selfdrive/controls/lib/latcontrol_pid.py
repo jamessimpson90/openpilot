@@ -19,7 +19,11 @@ class LatControlPID(LatControl):
     self.pid.reset()
 
   # Update the active PI parameters
-  def liveUpdateParams(self, k_p=None, k_i=None, k_f=None, pos_limit=None, neg_limit=None, rate=None):
+  # Note: k_p and k_i don't need this IF they come in as arrays, which they do
+  # However k_f is immutable, and the others could be so this is overkill
+  def liveUpdateParams(self, k_p=None, k_i=None, k_f=None, pos_limit=None, neg_limit=None, rate=None, get_steer_feedforward=None):
+    if get_steer_feedforward is not None:
+      self.get_steer_feedforward = get_steer_feedforward
     self.pid.liveUpdateParams(k_p, k_i, k_f, pos_limit, neg_limit, rate)
 
   def update(self, active, CS, CP, VM, params, last_actuators, desired_curvature, desired_curvature_rate):

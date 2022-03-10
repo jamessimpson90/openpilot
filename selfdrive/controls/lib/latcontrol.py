@@ -12,6 +12,12 @@ class LatControl(ABC):
     self.sat_limit = CP.steerLimitTimer
     self.sat_count = 0.
 
+
+  def liveUpdateParams(self, steerLimitTimer=None):
+    if steerLimitTimer is not None:
+      self.sat_limit = steerLimitTimer
+
+
   @abstractmethod
   def update(self, active, CS, CP, VM, params, last_actuators, desired_curvature, desired_curvature_rate):
     pass

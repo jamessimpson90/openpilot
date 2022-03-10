@@ -65,6 +65,26 @@ class LatControlINDI(LatControl):
     self.steer_filter.x = 0.
     self.speed = 0.
 
+  # def live_update_params(self, params: dict):
+  #   # Note: Tuples are immutable, but the referenced lists are not
+  #   # So long as the lists are updated, and not replaced, we dont need this
+  #   if "timeConstantBP" in params or "timeConstantV" in params:
+  #     tmp = (self._RC[0] if "timeConstantBP" not in params else params.get("timeConstantBP"),\
+  #            self._RC[1] if "timeConstantV" not in params else params.get("timeConstantV"))
+  #     self._RC = tmp
+  #   if "actuatorEffectivenessBP" in params or "actuatorEffectivenessV" in params:
+  #     tmp = (self._G[0] if "actuatorEffectivenessBP" not in params else params.get("actuatorEffectivenessBP"),\
+  #            self._G[1] if "actuatorEffectivenessV" not in params else params.get("actuatorEffectivenessV"))
+  #     self._G = tmp
+  #   if "outerLoopGainBP" in params or "outerLoopGainV" in params:
+  #     tmp = (self._outer_loop_gain[0] if "outerLoopGainBP" not in params else params.get("outerLoopGainBP"),\
+  #            self._outer_loop_gain[1] if "outerLoopGainV" not in params else params.get("outerLoopGainV"))
+  #     self._outer_loop_gain = tmp
+  #   if "innerLoopGainBP" in params or "innerLoopGainV" in params:
+  #     tmp = (self._inner_loop_gain[0] if "innerLoopGainBP" not in params else params.get("innerLoopGainBP"),\
+  #            self._inner_loop_gain[1] if "innerLoopGainV" not in params else params.get("innerLoopGainV"))
+  #     self._inner_loop_gain = tmp
+
   def update(self, active, CS, CP, VM, params, last_actuators, desired_curvature, desired_curvature_rate):
     self.speed = CS.vEgo
     # Update Kalman filter
